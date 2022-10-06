@@ -1,8 +1,11 @@
 ---
-title: Setting up GIT and OpenSSH for multiple identities
-subtitle: ... also with PaaS like GitHub/Gitlab etc.
+title: GIT and OpenSSH with multiple identities
+subtitle: How to set up GIT and OpenSSH for multiple identities, also with PaaS like GitHub/Gitlab etc.
 date: 2022-10-05T20:00:00+02:00
-draft: false
+tags:
+  - git
+  - github
+  - ssh
 ---
 
 If you use your computer in multiple contexts (private, work, multiple client projects), you might
