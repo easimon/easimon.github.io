@@ -1,0 +1,78 @@
+baseURL: https://easimon.github.io/
+DefaultContentLanguage: "en"
+title: easimon
+theme: beautifulhugo
+
+pygmentsStyle: colorful
+pygmentsUseClasses: true
+pygmentsCodeFences: true
+pygmentsCodefencesGuessSyntax: true
+pygmentsUseClassic: true
+#pygmentOptions: "linenos=inline"
+#disqusShortname: "XXX"
+#googleAnalytics: "XXX"
+
+params:
+  dateFormat: "January 2, 2006"
+  showPageTitleInTOC: false
+  logo: https://avatars.githubusercontent.com/u/1749657
+  subtitle: software development and cat content
+  commit: false
+  rss: true
+  comments: false
+  readingTime: true
+  wordCount: true
+  useHLJS: true
+  socialShare: true
+  delayDisqus: true
+  showRelatedPosts: true
+
+Author:
+  name: "Markus Dobel"
+  email: "blog@spam.dobel.click"
+  facebook: "markus.dobel"
+  github: "easimon"
+  twitter: "mdobel"
+  linkedin: "markus-dobel"
+#  xing: "Markus_Dobel"
+#  website: "yourwebsite.com"
+#  reddit: "username"
+#  gitlab: "username"
+#  bitbucket: "username"
+#  stackoverflow: "users/XXXXXXX/username"
+#  snapchat: "username"
+#  instagram: "username"
+#  youtube: "user/username" # or channel/channelname
+#  soundcloud: "username"
+#  spotify: "username"
+#  bandcamp: "username"
+#  itchio: "username"
+#  vk: "username"
+#  paypal: "username"
+#  telegram: "username"
+#  500px: "username"
+#  codepen: "username"
+#  mastodon: "url"
+#  kaggle: "username"
+#  weibo: "username"
+#  slack: "username"
+#  discord: "invite code (https://discord.gg/XXXXXXX)"
+#  strava: "userid"
+
+menu:
+  main:
+    - identifier: blog
+      name: blog
+      title: Blog
+      url: ''
+      weight: 1
+    - identifier: about
+      name: about
+      title: About
+      url: page/about
+      weight: 3
+#    - identifier: example
+#      name: example.org
+#      url: https://example.org
+#      weight: 30
+# Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
