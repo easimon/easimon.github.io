@@ -15,7 +15,8 @@ pygmentsUseClassic: true
 params:
   dateFormat: "January 2, 2006"
   showPageTitleInTOC: false
-  logo: https://avatars.githubusercontent.com/u/1749657
+  logo: logo/logo.png
+  favicon: favicon/favicon.ico
   subtitle: software development and cat content
   readingTime: true
   wordCount: true
