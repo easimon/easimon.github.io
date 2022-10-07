@@ -1,7 +1,7 @@
 ---
 title: Painless self-signed certificates
 subtitle: How to quickly create a self-signed TLS certificates and convert it to common formats.
-date: 2022-10-06T18:00:00+02:00
+date: 2022-10-06T21:00:00+02:00
 tags:
   - openssl
   - tls

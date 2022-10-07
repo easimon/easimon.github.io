@@ -1,7 +1,7 @@
 ---
 title: GIT and OpenSSH with multiple identities
 subtitle: How to set up GIT and OpenSSH for multiple identities, also with PaaS like GitHub/Gitlab etc.
-date: 2022-10-05T20:00:00+02:00
+date: 2022-10-06T20:00:00+02:00
 tags:
   - git
   - github
