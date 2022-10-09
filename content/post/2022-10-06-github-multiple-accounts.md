@@ -9,12 +9,15 @@ tags:
 ---
 
 If you use your computer in multiple contexts (private, work, multiple client projects), you might
-run into issues like having to use different identities for these contexts. For `git` this usually
-boils down to SSH keys and names or e-mail addresses for your commits.
+run need to use different identities for these contexts. For `git` this usually
+boils down to
+
+- different SSH keys for remote pull/push
+- different names and e-mail-addresses for the git commit log
 
 This can be a pain to work with -- after trying multiple solutions I found on the web (or puzzle
 pieces thereof), I created a combination that works completely automatic once it's set up, and
-that might be worth sharing.
+that I think might be worth sharing.
 
 <!--more-->
 
@@ -22,11 +25,11 @@ that might be worth sharing.
 
 The issue is actually two-fold:
 
-- For every pull/push, ssh needs to determine which SSH key to use. The default behaviour of
-  SSH to just try the same key (or list of those) for every connection is problematic with
-  git, since a key can be bound to one SSH user only. If you have multiple accounts on GitHub
-  you need to use different keys.
-- For every commit, git needs an identity to use (user name, e-mail) which is then persited forever
+- For every pull/push, ssh needs to determine, which SSH key to use. The default behaviour of
+  OpenSSH (to just try the same key (or list of those) for every connection) is problematic with
+  `git`, since a key can be bound to one SSH user only. If you have multiple accounts on GitHub
+  you need to use different keys for each account.
+- For every commit, git needs a user identity (real name, e-mail) which is then persisted forever
   in the git log. While your name might be identical all the time, using your private address
   in work repositories or vice versa might be not desirable.
 
@@ -36,14 +39,14 @@ GitHub uses a single host name `github.com` for all repositories, and when using
 the SSH key identifies the user. The well-known OpenSSH feature of key selection based on
 host names does not help, since there is only one host: `github.com`. I guess, (also) because of
 this problem, GitHub recommends using only one account per user -- which works until there is
-this new customer that requires you to create an extra GitHub account to join the customer's
+this new customer, which requires you to create an extra GitHub account to join the customer's
 organization, or uses GitHub enterprise managed users.
 
 The same might apply for other git PaaS platforms using a single host name.
 
 ### Use different git author name and e-mail depending on context
 
-Git uses your user name and e-mail in every commit you make and persists it to the log. To keep
+Git uses your user name and e-mail in every commit you make, and persists it to the log. To keep
 things clean, you may not want to use your work email when committing to your private pet
 projects, or the other way around: use this embarrasing `l33t-c0der@hotmail.com` e-mail-address
 when committing at a project for your employer or for some important, but stiff client.
@@ -72,14 +75,22 @@ them separate, like this:
 ```text
 /Users/easimon/development/
   \_ hobby/
+    \_ my_blog/
+    \_ hobby_project_2/
   \_ work/
+    \_ company_website/
+    \_ some_microservice/
 ```
 
 or flat:
 
 ```text
 /Users/easimon/development/hobby
+/Users/easimon/development/hobby/my_blog
+/Users/easimon/development/hobby/hobby_project_2
 /Users/easimon/development/work
+/Users/easimon/development/work/company_website
+/Users/easimon/development/work/some_microservice
 ```
 
 Effectively you have two "context root" folders. Whenever you `cd` to one of the directories,
@@ -107,11 +118,11 @@ Match host github.com exec "pwd | grep -qE '^/some/absolute/path(/.*)?$'"
 
 #### Step by step
 
-You require one ssh key per context, which must / should do not be one of the "default"
+You require one ssh key per context, which must / should do **not** be one of the "default"
 `id_rsa` or `id_dsa` etc. keys, since there's some OpenSSH automagic to always include these
-keys when authenticating. Also, don't add these "default" keys to your GitHub
-account ssh keys, as doing so can interfere with this setup. I also recommend to *not* set a
-default catch-all-key for github.com globally. Instead, keep all your git ssh clones in
+keys when trying to authenticate. Also, don't add these "default" keys to your GitHub
+account ssh keys, as doing so can interfere with this setup. I also recommend to **not** set a
+default catch-all-key for github.com globally. Instead, keep all your git ssh clones inside
 one of the context root directories you defined.
 
 Create one SSH identity (key file) for each context:
@@ -174,7 +185,7 @@ $ cd ~/development
 $ ssh git@github.com
 git@github.com: Permission denied (publickey).
 
-$ cd ~/development/private
+$ cd ~/development/hobby
 $ ssh git@github.com
 PTY allocation request failed on channel 0
 Hi easimon! You've successfully authenticated, but GitHub does not provide shell access.
@@ -187,11 +198,11 @@ Hi easimon-work! You've successfully authenticated, but GitHub does not provide 
 Connection to github.com closed.
 ```
 
-When outside any context directory, the ssh connection should fail. If it succeeds, one of your
+When outside any context directory, the ssh connection **should fail**. If it succeeds, one of your
 default ssh keys (e.g. `~/.ssh/id_rsa`) is accepted by GitHub, and this spoils any attempt to switch
 the key to something else in "real" context folders.
 
-For each context directory the ssh connection should succeed, identify you by the expected
+For each context directory, the ssh connection should succeed, identify you by the expected
 GitHub handle and then drop the connection. Check if the `Hi your-handle` matches your expectations.
 
 Now, you're all set for cloning all your repositories into subfolder of the corresponding context
@@ -239,7 +250,7 @@ For each of the context folders, create a section like the following in
 This defines a gitconfig to include when inside a specific folder.
 The path must point to a valid git configuration file, but its location
 and name does not matter -- I just name these `.gitconfig` and put them
-into the context root.
+into the context root, but that's just personal preference.
 
 And then for each `path` create a file containing the following
 
@@ -266,13 +277,11 @@ running, I think it works like a charm.
 You can set an environment variable like this
 
 ```bash
-GIT_SSH_COMMAND='ssh -i ~/.ssh/work'
+GIT_SSH_COMMAND='ssh -i ~/.ssh/id_work'
 ```
 
 and make this toggle using [direnv](https://direnv.net/) or similar.
-Introduces another new tool, so I skipped diving into this. Also, this does
-most probably not work for tools like `terraform` that implement the git protocol
-themselves, ignoring `git` cli options.
+This introduces another new tool, so I skipped diving into this.
 
 ### SSH key selection using .gitconfig
 
@@ -283,11 +292,11 @@ You can also set the SSH key using path-specific `.gitconfig`s, like this:
   name = My Full Name
   email = my-mail@domain.com
 [core]
-  sshCommand = ssh -i ~/.ssh/work
+  sshCommand = ssh -i ~/.ssh/id_work
 ```
 
-This actuyll works for most tools I encountered, and has been the solution of my choice a long
-time. But is not evaluated by e.g. `terraform` when downloading modules, since terraform does not
+This actually works for *most* tools I encountered, and has been the solution of my choice a long
+time. But is not respected by e.g. `terraform` when downloading modules, since terraform does not
 seem to use the `git` cli to check things out, or at least completly ignores any `git` cli
 configuration. So if your terraform modules live in a private repository, `terraform init` in
 a root module refering to these private modules will not select the correct SSH key to check
@@ -299,7 +308,7 @@ applications using SSH. At least for terraform, it works.
 
 ### Create alternative hostnames for GitHub
 
-You can create alternative hostnames for github.com, using CNAMEs or ssh_config:
+You can create alternative hostnames for github.com, using `CNAME`s or ssh_config:
 
 ```ssh_config
 Host github.work.com
@@ -310,15 +319,16 @@ Host github.work.com
 
 This solves the problem by creating a new one:
 
-- When creating a DNS CNAME, it might be comfortable for most users,
-  but it requires to have a domain at hand to add this DNS CNAME entry.
-  It's also a bit sneaky to create CNAMEs in your domain pointing to
+- When creating a DNS `CNAME`, it might be comfortable for most users,
+  but it requires to have a domain at hand to add this DNS `CNAME` entry.
+  It's also a bit sneaky to create `CNAME`s in your domain pointing to
   hosts not under your control.
-- Using the hostname redefinition in `ssh_config` swaps the authentication
-  problem for a host name problem. How are others supposed to know that `github.work.com`,
-  which does not exist in DNS, must be a pointer to github.com?
+- Using the hostname redefinition in `ssh_config` does not require a valid DNS name,
+  but swaps the authentication problem for a host name problem.
+  How are others supposed to know that `github.work.com`, which does not exist in DNS,
+  must point to github.com using `ssh_config`?
 
 Also, for every connection to a previously unknown host, SSH asks for confirmation
-on first connect. CICD tools / Docker images that are doing something related to
+on first connect. CI/CD tools / Docker images that are doing something related to
 checking out code from `github.com` often have the `authorized_keys` pre-populated
 for `github.com` and other prominent services, but most probably not for your alias.
