@@ -19,7 +19,7 @@ If not yet done, install `jq`, `kubectl` and `base64`.
 Then put this in your `.bash_profile`:
 
 ```bash
-function kubesec() {
+function kubesec {
   local secretname="${1:-NONE}"
   local secretfield="${2:-NONE}"
 
