@@ -16,7 +16,7 @@ straight away.
 <!--more-->
 
 If not yet done, install `jq`, `kubectl` and `base64`.
-Just put this in your `.bash_profile`:
+Then put this in your `.bash_profile`:
 
 ```bash
 function kubesec() {
