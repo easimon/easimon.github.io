@@ -5,7 +5,7 @@ date: 2022-10-06T21:00:00+02:00
 tags:
   - openssl
   - tls
-  - scripting
+  - scripts
 ---
 
 Whenever I needed a quick self-signed TLS certificate, it took me ages
