@@ -2,6 +2,7 @@ baseURL: https://blog.dobel.click
 DefaultContentLanguage: "en"
 title: ~mdobel
 theme: beautifulhugo
+enableRobotsTXT: true
 
 pygmentsStyle: colorful
 pygmentsUseClasses: true
