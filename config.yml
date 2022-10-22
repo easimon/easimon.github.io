@@ -15,6 +15,7 @@ pygmentsUseClassic: true
 params:
   dateFormat: "January 2, 2006"
   showPageTitleInTOC: false
+  selfHosted: true
   logo: logo/logo.png
   favicon: favicon/favicon.ico
   subtitle: software development and cat content
