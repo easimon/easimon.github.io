@@ -1,4 +1,4 @@
-baseURL: https://blog.dobel.click/
+baseURL: https://blog.dobel.click
 DefaultContentLanguage: "en"
 title: ~mdobel
 theme: beautifulhugo
@@ -17,7 +17,7 @@ params:
   dateFormat: "January 2, 2006"
   showPageTitleInTOC: false
   selfHosted: true
-  logo: logo/logo.png
+  logo: logo/logo200.png
   favicon: favicon/favicon.ico
   subtitle: software development and cat content
   readingTime: true
