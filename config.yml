@@ -1,6 +1,6 @@
 baseURL: https://blog.dobel.click
 DefaultContentLanguage: "en"
-title: Blog of Markus Dobel
+title: blog of markus dobel
 theme: beautifulhugo
 enableRobotsTXT: true
 
