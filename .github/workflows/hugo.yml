@@ -56,4 +56,4 @@ jobs:
           success()
           && github.ref_name == 'main'
           && github.repository == 'easimon/easimon.github.io'
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2
